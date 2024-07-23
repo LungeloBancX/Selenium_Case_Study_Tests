@@ -1,4 +1,4 @@
-package Tests.Takealot;
+package TestSuites.Takealot;
 
 import CommonMethods.Steps;
 import Utilities.ExcelDataReader;
@@ -6,14 +6,11 @@ import Utilities.Global_Vars;
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.reporter.ExtentHtmlReporter;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.testng.Assert;
 import org.testng.annotations.*;
 
-public class Login {
+public class Register {
 
     WebDriver driver;
     protected ExtentReports extentReports;
@@ -40,28 +37,32 @@ public class Login {
     }
 
     @Test(dataProvider = "testData")
-    public void LoginAccount(String TestCaseID, String Scenario,String EmailAddress, String Password, String expectedOutput) throws InterruptedException {
-        System.out.println("Test Case ID:\t"+TestCaseID+"\nScenario:\t"+Scenario);
+    public void CreateAccount(String TestCaseID, String Scenario,String FirstName, String LastName, String EmailAddress ,String PhoneNumber, String Password, String expectedOutput) throws InterruptedException {
 
-        WebElement clickLogin=driver.findElement(By.xpath("//li//a[contains(text(),'Login')]"));
-       Steps.clickElement(clickLogin);
+        System.out.println("Test Case ID:\t"+TestCaseID+"\nFirstname:\t"+FirstName+"\nLastname:\t"+LastName+"\nScenario:\t"+Scenario+"\nExpected Output:\t"+expectedOutput);
+       WebElement clickRegister=driver.findElement(By.xpath("//li//a[contains(text(),'Register')]"));
+       Steps.clickElement(clickRegister);
 
        Thread.sleep(2000);
+       WebElement enterFirstName=driver.findElement(By.xpath("//span[contains(text(),'First Name')]/../..//input"));
+       Steps.scrollElementIntoView(driver, enterFirstName);
+       Steps.enterText(enterFirstName, FirstName);
+
+        WebElement enterLastName=driver.findElement(By.xpath("//span[contains(text(),'Last Name')]/../..//input"));
+        Steps.enterText(enterLastName, LastName);
+
         WebElement enterEmailAddress=driver.findElement(By.xpath("//span[contains(text(),'Email Address')]/../..//input"));
         Steps.enterText(enterEmailAddress, EmailAddress);
 
         WebElement enterPassword=driver.findElement(By.xpath("//span[contains(text(),'Password')]/../..//input"));
         Steps.enterText(enterPassword, Password);
 
+        WebElement enterCellphoneNumber=driver.findElement(By.xpath("//span[contains(text(),'Mobile Number')]/../..//input"));
+        Steps.enterText(enterCellphoneNumber, PhoneNumber);
         Thread.sleep(2000);
-        WebElement clickLoginButton=driver.findElement(By.xpath("//div//button[contains(text(),'Login')]"));
-        Steps.scrollElementIntoView(driver, clickLoginButton);
-        Steps.clickElement(clickLoginButton);
-
-        Thread.sleep(2000);
-        WebElement validateLogin=driver.findElement(By.xpath("(//ul//li)[3]"));
-        String actualOutput=validateLogin.getText();
-        Assert.assertEquals(expectedOutput, actualOutput);
+        WebElement clickContinue=driver.findElement(By.xpath("//div//button[contains(text(),'Continue')]"));
+        Steps.scrollElementIntoView(driver, clickContinue);
+        Steps.clickElement(clickContinue);
     }
 
     @AfterClass
@@ -72,7 +73,7 @@ public class Login {
     @DataProvider(name = "testData")
     public Object[][] testData() {
         String filePath = Global_Vars.ROOT_PATH + "/TestData/TestData.xlsx";
-        String sheetName = "login";
+        String sheetName = "register";
         return ExcelDataReader.readExcelData(filePath, sheetName);
     }
 }

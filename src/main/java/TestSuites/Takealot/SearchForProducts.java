@@ -1,4 +1,4 @@
-package Tests.Takealot;
+package TestSuites.Takealot;
 
 import CommonMethods.Steps;
 import Utilities.ExcelDataReader;

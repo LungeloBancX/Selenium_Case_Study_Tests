@@ -1,7 +1,7 @@
-package Tests.Booker;
+package TestSuites.Booker;
 
 import CommonMethods.Steps;
-import ExtentReport.ExtentManager;
+import ExtentReport.Reporter;
 import Utilities.ExcelDataReader;
 import Utilities.Global_Vars;
 import com.aventstack.extentreports.ExtentReports;
@@ -10,11 +10,9 @@ import com.aventstack.extentreports.Status;
 import com.aventstack.extentreports.reporter.ExtentHtmlReporter;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.interactions.Action;
 import org.testng.Assert;
 import org.testng.annotations.*;
 
-import java.io.File;
 import java.io.IOException;
 
 //import static CommonMethods.Steps.rightClickAndDragWithRobot;
@@ -29,7 +27,7 @@ public class Booker2 {
     @BeforeTest
     public void setUpExtentReports() {
 //        start reporters
-        extent = ExtentManager.createInstance("extent.html");
+        extent = Reporter.createInstance("extent.html");
         ExtentHtmlReporter htmlReporter = new ExtentHtmlReporter("extent_report");
 //        create ExtentReports and attach report
         extent = new ExtentReports();
