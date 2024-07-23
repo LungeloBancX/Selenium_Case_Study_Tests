@@ -1,33 +1,25 @@
-package Tests.Booker;
+package TestSuites.Booker;
 
+import Base.BaseClass;
 import CommonMethods.Steps;
 import Utilities.ExcelDataReader;
 import Utilities.Global_Vars;
+import jdk.jfr.Description;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.interactions.Action;
-import org.openqa.selenium.interactions.Actions;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import javax.swing.*;
-//import static CommonMethods.Steps.rightClickAndDrag;
-//import static CommonMethods.Steps.rightClickAndDragWithRobot;
+import java.util.concurrent.TimeUnit;
 
-public class Booker{
-
-    WebDriver driver;
-    Action action;
+public class Booker extends BaseClass {
     Steps step;
     @BeforeClass
     public void startTest(){
-        System.setProperty("webdriver.chrome.driver", Global_Vars.ROOT_PATH + "/src/main/java/drivers/chromedriver.exe");
-        driver=new ChromeDriver();
         driver.get("https://automationintesting.online/");
+        driver.manage().window().maximize();
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
     }
 
     @Test(dataProvider = "testData")
@@ -67,10 +59,6 @@ public class Booker{
         WebElement clickBook=driver.findElement(By.xpath("//div//button[contains(text(),'Book')]"));
         step.clickElement(clickBook);
 
-    }
-    @AfterClass
-    public void tearDown() {
-        driver.quit();
     }
 
     @DataProvider(name = "testData")
